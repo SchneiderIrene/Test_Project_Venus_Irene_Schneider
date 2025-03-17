@@ -1,11 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
+    <title>ToDo für Venus</title>
+    <link
+      rel="stylesheet"
+      href="styles.css"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <div class="box-to-do">
+        <h1 class="title">TO &nbsp; DO &nbsp; LIST</h1>
+        <div class="input-container">
+          <input
+            class="input-new-to-do"
+            placeholder="TO DO "
+          />
+          <button class="button-new">
+            <img
+              src="icons/plus.png"
+              class="plus"
+            />
+            &nbsp; ADD
+          </button>
+        </div>
+        <div class="to-do-list-container">
+          <div class="to-do-item-container">
+            <div class="to-do-item">
+                <p class="text-to-do">моя задача</p>
+            </div>
+            <div class="button-box">
+              <button class="button-done">
+                <img src="icons/check.png" alt="done" class="button-icon">
+              </button>
+              <button class="button-delete">
+                <img src="icons/trash.png" alt="delete" class="button-icon">
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="script.js"></script>
+  </body>
 </html>
