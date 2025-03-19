@@ -27,6 +27,10 @@ function renderTasks() {
     const newToDoItemContainer = toDoItemContainer.cloneNode(true);
     newToDoItemContainer.style.display = 'flex';
 
+    console.log(newToDoItemContainer.getAttribute('draggable')); // true oder false?
+  
+    newToDoItemContainer.dataset.index = index;
+
     const taskTextElement = newToDoItemContainer.querySelector('.text-to-do');
     taskTextElement.textContent = task.text;
 
@@ -54,9 +58,36 @@ function renderTasks() {
       renderTasks();
     });
 
+    newToDoItemContainer.addEventListener('dragstart', handleDragStart);
+    newToDoItemContainer.addEventListener('dragover', handleDragOver);
+    newToDoItemContainer.addEventListener('drop', handleDrop);
+
     toDoListContainer.appendChild(newToDoItemContainer);
   });
 }
+
+
+function handleDragStart(event) {
+  event.dataTransfer.setData('text/plain', event.target.dataset.index);
+}
+
+function handleDragOver(event) {
+  event.preventDefault();
+}
+
+function handleDrop(event) {
+  event.preventDefault();
+  const draggedIndex = event.dataTransfer.getData('text/plain');
+  const targetIndex = event.target.closest('.to-do-item-container').dataset.index;
+
+  if (draggedIndex !== targetIndex) {
+    const draggedTask = tasks.splice(draggedIndex, 1)[0]; 
+    tasks.splice(targetIndex, 0, draggedTask); 
+    saveTasksToLocalStorage();
+    renderTasks();
+  }
+}
+
 function saveTasksToLocalStorage() {
   localStorage.setItem('tasks', JSON.stringify(tasks));
 }

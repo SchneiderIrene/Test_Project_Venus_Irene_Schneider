@@ -95,6 +95,8 @@ gap: 3vw;
     width: 100%;
     padding: 2vw;
     display: none;
+    cursor: pointer;
+
 }
 
 .button-box{
