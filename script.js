@@ -2,12 +2,15 @@ const inputField = document.querySelector('.input-new-to-do');
 const addButton = document.querySelector('.button-new');
 const toDoListContainer = document.querySelector('.to-do-list-container');
 const toDoItemContainer = document.querySelector('.to-do-item-container');
+const editIcon = document.querySelector('.icon-edit'); 
+const menuFilter = document.querySelector('.menu-filter'); 
 
 if (!toDoItemContainer) {
   console.error('element not found');
 }
 
 let tasks = loadTasksFromLocalStorage();
+let filter = 'all'
 
 addButton.addEventListener('click', () => {
   const taskText = inputField.value.trim();
@@ -20,10 +23,53 @@ addButton.addEventListener('click', () => {
   }
 });
 
+editIcon.addEventListener('click', () => {
+  if (menuFilter.style.display === 'none' || menuFilter.style.display === '') {
+    menuFilter.style.display = 'flex'; 
+  } else {
+    menuFilter.style.display = 'none'; 
+  }
+});
+document.addEventListener('click', (event) => {
+  if (!menuFilter.contains(event.target) && event.target !== editIcon) {
+    menuFilter.style.display = 'none'; 
+  }
+});
+
+
+menuFilter.querySelector('.menu-item:nth-child(1)').addEventListener('click', () => {
+  filter = 'all'; 
+  renderTasks();
+  menuFilter.style.display = 'none';
+});
+
+menuFilter.querySelector('.menu-item:nth-child(2)').addEventListener('click', () => {
+  filter = 'completed'; 
+  renderTasks();
+  menuFilter.style.display = 'none';
+});
+
+menuFilter.querySelector('.menu-item:nth-child(3)').addEventListener('click', () => {
+  filter = 'pending'; 
+  renderTasks();
+  menuFilter.style.display = 'none';
+});
+
+
 function renderTasks() {
   toDoListContainer.innerHTML = '';
 
-  tasks.forEach((task, index) => {
+  const filteredTasks = tasks.filter((task) => {
+    if (filter === 'completed') {
+      return task.done;
+    }
+    if (filter === 'pending') {
+      return !task.done; 
+    }
+    return true; 
+  });
+
+  filteredTasks.forEach((task, index) => {
     const newToDoItemContainer = toDoItemContainer.cloneNode(true);
     newToDoItemContainer.style.display = 'flex';
 
